@@ -20,8 +20,12 @@
     git remote add <name> ssh://git@192.168.99.100:2222/git-server/repos/<repos>.git
     git push <name> master
 
-# Jenkins
+# Jenkins master
 
     docker pull jenkins:alpine
     docker volume create jenkins_home
     docker run -d --name jenkins -p 8080:8080 -p 5000:5000 jenkins:alpine
+
+# Jenkins slave
+
+     sudo yum -y install java-1.8.0-openjdk
