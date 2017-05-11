@@ -28,4 +28,7 @@
 
 # Jenkins slave
 
-     sudo yum -y install java-1.8.0-openjdk
+    sudo adduser jenkins
+    sudo usermod -aG docker jenkins
+    sudo yum -y install java-1.8.0-openjdk
+    
