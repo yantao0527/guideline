@@ -32,3 +32,8 @@
     sudo usermod -aG docker jenkins
     sudo yum -y install java-1.8.0-openjdk
     
+# Gerrit
+
+    docker-machine create --engine-registry-mirror=https://2wud1uac.mirror.aliyuncs.com -d virtualbox gerrit
+    docker pull openfrontier/gerrit
+    docker run --name gerrit -d -p 8080:8080 -p 29418:29418 openfrontier/gerrit
