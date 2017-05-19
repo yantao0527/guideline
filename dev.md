@@ -37,3 +37,10 @@
     docker-machine create --engine-registry-mirror=https://2wud1uac.mirror.aliyuncs.com -d virtualbox gerrit
     docker pull openfrontier/gerrit
     docker run --name gerrit -d -p 8080:8080 -p 29418:29418 openfrontier/gerrit
+    
+    docker run --name gerrit -d \
+        -p 8080:8080 -p 29418:29418 \
+        -e AUTH_TYPE=LDAP \
+        -e LDAP_SERVER=ldap://10.2.8.220 \
+        -e LDAP_ACCOUNTBASE=dc=yihuacomputer,dc=com \
+        openfrontier/gerrit
