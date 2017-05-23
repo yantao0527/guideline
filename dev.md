@@ -44,3 +44,12 @@
         -e LDAP_SERVER=ldap://10.2.8.220 \
         -e LDAP_ACCOUNTBASE=dc=yihuacomputer,dc=com \
         openfrontier/gerrit
+
+# LDAP
+    docker pull danielguerra/alpine-openldap
+    docker run --name ldap -d \
+        -p 389:389 \
+        -e SLAPD_PASSWORD=mysecretpassword \
+        -e SLAPD_DOMAIN=ldap.example.org \
+        danielguerra/alpine-openldap
+        
