@@ -53,3 +53,6 @@
         -e SLAPD_DOMAIN=ldap.example.org \
         danielguerra/alpine-openldap
         
+    ldapsearch -Wx -D "cn=Manager,dc=yihuacomputer,dc=com" -b "dc=yihuacomputer,dc=com" \
+        -H ldap://10.2.8.220 -LLL > ldap_dump-20170524-1.ldif
+        
