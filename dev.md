@@ -46,18 +46,18 @@
         openfrontier/gerrit
 
 # LDAP
-    docker pull danielguerra/alpine-openldap
-    docker run --name ldap -d \
-        -p 389:389 \
-        -e SLAPD_PASSWORD=mysecretpassword \
-        -e SLAPD_DOMAIN=ldap.example.org \
-        danielguerra/alpine-openldap
+    docker pull openfrontier/openldap-server
+    docker volume create ldap_conf
+    docker volume create ldap_data
     docker run --name ldap -d \
         -v ldap_conf:/etc/ldap -v ldap_data:/var/lib/ldap -p 389:389 \
         -e SLAPD_PASSWORD=mcafee123 -e SLAPD_DOMAIN=yihuacomputer.com \
+        --network dev_default \
         openfrontier/openldap-server
         
+    # export ldif
     ldapsearch -Wx -D "cn=Manager,dc=yihuacomputer,dc=com" -b "dc=yihuacomputer,dc=com" \
         -H ldap://10.2.8.220 -LLL > ldap_dump-20170524-1.ldif
-    ldapadd -Wx -D "cn=Manager,dc=yihuacomputer,dc=com" -H ldap://10.2.8.220 -f ldap_dump-20170524-1.ldif
+    # import ldif
+    ldapadd -Wx -D "cn=admin,dc=yihuacomputer,dc=com" -H ldap://192.168.99.100 -f ldap_dump-20170525-1.ldif
         
