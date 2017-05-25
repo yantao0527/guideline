@@ -50,16 +50,16 @@
     # export ldif
     ldapsearch -Wx -D "cn=Manager,dc=yihuacomputer,dc=com" -b "dc=yihuacomputer,dc=com" \
         -H ldap://10.2.8.220 -LLL > ldap_dump-20170524-1.ldif
+
     # import ldif
     ldapadd -Wx -D "cn=admin,dc=yihuacomputer,dc=com" -H ldap://192.168.99.100 -f ldap_dump-20170525-1.ldif
-    
+
 用JXplorer导入时移除ldif根节点
 
 # Gerrit
 
     docker pull openfrontier/gerrit
     docker run --name gerrit -d -p 8080:8080 -p 29418:29418 openfrontier/gerrit
-    
     docker volume create gerrit
     docker run --name gerrit -d \
         -p 8080:8080 -p 29418:29418 \
@@ -69,4 +69,5 @@
         -e LDAP_ACCOUNTBASE=dc=yihuacomputer,dc=com \
         --network dev_default \
         openfrontier/gerrit
+    
         
