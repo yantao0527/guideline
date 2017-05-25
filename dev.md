@@ -32,18 +32,10 @@
     sudo usermod -aG docker jenkins
     sudo yum -y install java-1.8.0-openjdk
     
-# Gerrit
+# 集成开发环境
 
     docker-machine create --engine-registry-mirror=https://2wud1uac.mirror.aliyuncs.com -d virtualbox gerrit
-    docker pull openfrontier/gerrit
-    docker run --name gerrit -d -p 8080:8080 -p 29418:29418 openfrontier/gerrit
-    
-    docker run --name gerrit -d \
-        -p 8080:8080 -p 29418:29418 \
-        -e AUTH_TYPE=LDAP \
-        -e LDAP_SERVER=ldap://10.2.8.220 \
-        -e LDAP_ACCOUNTBASE=dc=yihuacomputer,dc=com \
-        openfrontier/gerrit
+    docker network create dev_default
 
 # LDAP
     docker pull openfrontier/openldap-server
@@ -58,6 +50,20 @@
     # export ldif
     ldapsearch -Wx -D "cn=Manager,dc=yihuacomputer,dc=com" -b "dc=yihuacomputer,dc=com" \
         -H ldap://10.2.8.220 -LLL > ldap_dump-20170524-1.ldif
-    # import ldif
+    # import ldif （用JXplorer导入时移除根节点）
     ldapadd -Wx -D "cn=admin,dc=yihuacomputer,dc=com" -H ldap://192.168.99.100 -f ldap_dump-20170525-1.ldif
-        
+
+# Gerrit
+
+    docker pull openfrontier/gerrit
+    docker run --name gerrit -d -p 8080:8080 -p 29418:29418 openfrontier/gerrit
+    
+    docker volume create gerrit
+    docker run --name gerrit -d \
+        -p 8080:8080 -p 29418:29418 \
+        -v gerrit:/var/gerrit/review_site \
+        -e AUTH_TYPE=LDAP \
+        -e LDAP_SERVER=ldap://ldap \
+        -e LDAP_ACCOUNTBASE=dc=yihuacomputer,dc=com \
+        --network dev_default \
+        openfrontier/gerrit
