@@ -52,6 +52,10 @@
         -e SLAPD_PASSWORD=mysecretpassword \
         -e SLAPD_DOMAIN=ldap.example.org \
         danielguerra/alpine-openldap
+    docker run --name ldap -d \
+        -v ldap_conf:/etc/ldap -v ldap_data:/var/lib/ldap -p 389:389 \
+        -e SLAPD_PASSWORD=mcafee123 -e SLAPD_DOMAIN=yihuacomputer.com \
+        openfrontier/openldap-server
         
     ldapsearch -Wx -D "cn=Manager,dc=yihuacomputer,dc=com" -b "dc=yihuacomputer,dc=com" \
         -H ldap://10.2.8.220 -LLL > ldap_dump-20170524-1.ldif
