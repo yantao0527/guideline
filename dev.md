@@ -74,6 +74,10 @@
     docker pull sonatype/nexus3:3.3.1
     docker volume create nexus_data
     docker run --name nexus -d \
-        -p 8081:8081 \
+        -p 8081:8081 -p 8088:8088 \
         -v nexus_data:/nexus-data \
         sonatype/nexus3:3.3.1
+
+两个端口映射，其中8081是Nexus服务自身的Web管理页面端口，8088是我们用于Docker镜像仓库服务的端口。
+默认用户名及密码admin/admin123。
+场景中并未为镜像仓库服务启用https证书，所以docker启动进程的参数还需要添加参数--inscure-registry=192.168.99.100:8088。
