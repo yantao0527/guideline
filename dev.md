@@ -69,4 +69,11 @@
         --network dev_default \
         openfrontier/gerrit
     
-        
+# Nexus3
+
+    docker pull sonatype/nexus3:3.3.1
+    docker volume create nexus_data
+    docker run --name nexus -d \
+        -p 8081:8081 \
+        -v nexus_data:/nexus-data \
+        sonatype/nexus3:3.3.1
